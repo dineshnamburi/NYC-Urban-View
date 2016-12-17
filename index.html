@@ -23,15 +23,20 @@
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    L.tileLayer.wms("proj2.php", {
+    
+	L.tileLayer.wms("wms.php", {
+    	layers: 'schools',
+        format: 'image/png',
+        transparent: true,
+    }).addTo(map);
+	L.tileLayer.wms("wms.php", {
     	layers: 'nypp',
         format: 'image/png',
         transparent: true,
         attribution: "Weather data © 2012 IEM Nexrad"
     }).addTo(map);
-	
-	var geocoder = L.Mapzen.geocoder('mapzen-xxxxxx', {
-        autocomplete: false,
+	var geocoder = L.Mapzen.geocoder('mapzen-dWt4MWC', {
+        autocomplete: true,
         params: {
           sources: 'osm',
           'boundary.country': 'USA',
