@@ -1,1 +1,43 @@
-Test RS
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Leaflet Web Map</title>
+		<link rel="stylesheet" href="leaflet/leaflet.css" />
+		<link rel="stylesheet" href="css/custom.css" />
+		<script src="leaflet/leaflet-src.js"></script>
+		
+	</head>
+
+	<body>
+		<div id="map"></div>
+		
+		
+		
+		
+		
+		
+		<script>
+
+			var map = L.map('map',{center: [40.7128, -74.0059],zoom: 15});
+
+			L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+				attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+				}).addTo(map);
+			/*var wmsLayer = L.tileLayer.wms('proj2.php?', {
+				layers: 'nypp'
+				}).addTo(map);*/
+				
+			L.tileLayer.wms("proj2.php?", {
+				layers: 'nypp',
+				format: 'image/png',
+				EXCEPTIONS:"application/vnd.ogc.se_inimage",
+				transparent:true,
+				maxZoom: 18,
+				minZoom: 12,
+			}).addTo(map);
+		
+		
+		</script>
+	</body>
+	
+</html>
