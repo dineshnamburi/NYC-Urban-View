@@ -32,16 +32,13 @@
 			}
 
 			map = new OpenLayers.Map('map', {
-				projection: "EPSG:2263",
+				projection: "EPSG:3857",
 				units: "ft",
 				maxResolution: 250000,
 				maxExtent: new OpenLayers.Bounds(
 					913154.843600, 120114.582600, 1067382.510900, 272932.046000
 				)
 			});
-			
-			layer = new OpenLayers.Layer.OSM( "OpenStreet Map");
-                map.addLayer(layer);
 
 			map.addControl(new OpenLayers.Control.Navigation());
 			map.addControl(new OpenLayers.Control.MousePosition({position: new OpenLayers.Pixel(100,0)}));

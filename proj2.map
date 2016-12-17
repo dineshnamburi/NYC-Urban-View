@@ -5,7 +5,7 @@ MAP
   IMAGECOLOR     255 255 255  
   
   PROJECTION
-    "init=epsg:2263"
+    "init=epsg:3857"
   END
   
 
@@ -15,7 +15,7 @@ MAP
        "wms_title" 			"Police Precinct"
        "wms_abstract"			"NYC Police Precinct Map"
        "wms_onlineresource" 		"proj2.php"       
-       "wms_srs" 			"EPSG:2263 EPSG:4326"    
+       "wms_srs" 			"EPSG:2263 EPSG:4326 EPSG:3857"    
        "wms_formats" 			'png'
        "wfs_title"            		"Police Precinct"
        "wfs_onlineresource"   		"proj2.php" 

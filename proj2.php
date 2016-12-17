@@ -23,11 +23,13 @@ $new_layer->setMetaData("gml_featureid","precinct");
 $new_layer->setMetaData("wms_feature_info_mime_type","text/html");
 $new_class = ms_newClassObj($new_layer);
 $new_style = ms_newStyleObj($new_class);
-$new_style-> outlinecolor->setRGB(255, 0, 0);
+//$new_style->color->setRGB(255,204,0);
+$new_style-> outlinecolor->setRGB(0, 0, 0);
+
 
 $new_layer->setConnectionType(MS_POSTGIS);
 $new_layer->set("connection","user=root password=root dbname=nycurbanview host=localhost");
-$data="geom from (select * from nycuhf42 order by uhfcode) as foo using unique uhfcode using SRID=2263";
+$data="geom from (select * from nycuhf42 order by uhfcode) as foo using unique uhfcode using SRID=3857";
 $new_layer->set("data",$data) ;
 
 $oMap->owsdispatch($request);
