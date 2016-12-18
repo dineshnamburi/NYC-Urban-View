@@ -59,6 +59,29 @@ $new_layer1->set("connection","user=root password=root dbname=nycurbanview host=
 $data="geom from (select gid,ST_Buffer(geom,100) as geom from schools order by gid) as foo using unique gid using SRID=3857";
 $new_layer1->set("data",$data) ;
 
+//Crime data layer
+
+$new_layer2 =ms_newlayerobj($oMap);
+$new_layer2->set("type", MS_LAYER_POLYGON);
+$new_layer2->set("dump", 1);
+$new_layer2->set("status", 1);
+$new_layer2->set("name","crime");
+//$new_layer->set("template","infotemplate.html");
+$new_layer2->setMetaData("wms_name","urbanview");
+$new_layer2->setMetaData("wms_extent","913154.843600 120114.582600 1067382.510900 272932.046000");
+$new_layer2->setMetaData("gml_include_items","all");
+$new_layer2->setMetaData("gml_featureid","precinct");
+$new_layer2->setMetaData("wms_feature_info_mime_type","text/html");
+$new_class2 = ms_newClassObj($new_layer2);
+$new_style2 = ms_newStyleObj($new_class2);
+//$new_style2->color->setRGB(255,204,0);
+$new_style2->outlinecolor->setRGB(255, 0, 0);
+$new_layer2->setConnectionType(MS_POSTGIS);
+$new_layer2->set("connection","user=root password=root dbname=nycurbanview host=localhost");
+$data="geom from (select * from nypp order by gid) as foo using unique gid using SRID=3857";
+$new_layer2->set("data",$data) ;
+
+
 
 $oMap->owsdispatch($request);
 $contenttype = ms_iostripstdoutbuffercontenttype();
