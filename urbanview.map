@@ -25,6 +25,149 @@ MAP
        "wfs_enable_request" 		"*"  
     END    
   END
+  
+  LAYER # Crime layer begins here
+    NAME         problem2
+    DATA         problem2
+    STATUS       ON
+    TYPE         POLYGON
+    DUMP 	 TRUE
+    CONNECTIONTYPE POSTGIS
+    CONNECTION  "user=root password=root dbname=nycurbanview host=localhost"
+    DATA "geom from (select * from nypp) as foo using unique gid using SRID=3857"	    
+    TEMPLATE	 spwms.html
+    CLASS
+       NAME       "1"
+        STYLE
+			COLOR        255 246 239
+			OUTLINECOLOR 0 0 0
+				BACKGROUNDCOLOR 255 222 3
+			size	       1
+			width         2
 
+        END  
+	   EXPRESSION ([crime_rate] <= 1.2404)
+    END
+	CLASS
+       NAME       "2"
+        STYLE
+			COLOR        255 179 128
+			OUTLINECOLOR 0 0 0
+				BACKGROUNDCOLOR 255 222 3
+			size	       1
+			width         2
+
+        END  
+	   EXPRESSION ([crime_rate] > 1.2404 AND [crime_rate] <= 1.4803)
+    END
+	CLASS
+       NAME       "3"
+        STYLE
+			COLOR        255 163 102
+			OUTLINECOLOR 0 0 0
+				BACKGROUNDCOLOR 255 222 3
+			size	       1
+			width         2
+
+        END  
+	   EXPRESSION ([crime_rate] > 1.4803 AND [crime_rate] <= 1.6483)
+    END
+	CLASS
+       NAME       "4"
+        STYLE
+			COLOR        255 148 77
+			OUTLINECOLOR 0 0 0
+				BACKGROUNDCOLOR 255 222 3
+			size	       1
+			width         2
+
+        END  
+	   EXPRESSION ([crime_rate] > 1.6483 AND [crime_rate] <= 2.4154)
+    END
+	CLASS
+       NAME       "5"
+        STYLE
+			COLOR        255 133 51
+			OUTLINECOLOR 0 0 0
+				BACKGROUNDCOLOR 255 222 3
+			size	       1
+			width         2
+
+        END  
+	   EXPRESSION ([crime_rate] > 2.4154 AND [crime_rate] <= 12.3481)
+    END
+	OPACITY 50
+  END # Crime layer ends here  
+  
+
+  
+  
+  
+  LAYER # Air layer begins here
+    NAME         air
+    DATA         air
+    STATUS       ON
+    TYPE         POLYGON
+    DUMP 	 TRUE
+    CONNECTIONTYPE POSTGIS
+    CONNECTION  "user=root password=root dbname=nycurbanview host=localhost"
+    DATA "geom from (select gid,geom,quality_rate as air_quality from nycuhf42) as foo using unique gid using SRID=3857"	    
+    TEMPLATE	 spwms.html
+	CLASS
+       NAME       "2"
+        STYLE
+			COLOR        255 209 179
+			OUTLINECOLOR 0 0 0
+				BACKGROUNDCOLOR 255 222 3
+			size	       1
+			width         2
+
+        END  
+	   EXPRESSION ([air_quality] < 30)
+    END
+	CLASS
+       NAME       "3"
+        STYLE
+			COLOR        255 163 102
+			OUTLINECOLOR 0 0 0
+				BACKGROUNDCOLOR 255 222 3
+			size	       1
+			width         2
+
+        END  
+	   EXPRESSION ([air_quality] >= 30 AND [air_quality] <= 40)
+    END
+	CLASS
+       NAME       "4"
+        STYLE
+			COLOR        255 133 51
+			OUTLINECOLOR 0 0 0
+				BACKGROUNDCOLOR 255 222 3
+			size	       1
+			width         2
+
+        END  
+	   EXPRESSION ([air_quality] > 40)
+    END
+	OPACITY 50
+  END # Air layer ends here  
+  
+  
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
  END 
 

@@ -1,85 +1,102 @@
-<!DOCTYPE html>
 <html>
 	<head>
-		<title>Leaflet Web Map</title>
-		<link rel="stylesheet" href="leaflet/leaflet.css" />
-		<link rel="stylesheet" href="css/custom.css" />
-		   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.7/leaflet.draw.css" />
-		<script src="http://leaflet.github.io/Leaflet.draw/docs/examples/libs/leaflet-src.js"></script>
-		<!--<link rel="stylesheet" href="https://mapzen.com/js/mapzen.css">
-      <script src="https://mapzen.com/js/mapzen.min.js"></script>-->
-	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.7.1/leaflet-geocoder-mapzen.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.7.1/leaflet-geocoder-mapzen.js"></script>
- <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.7/leaflet.draw.js">
-    </script>
-		
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<style>
+			.header{
+				background-color:#000;
+				color:#FFFFFF;
+				font-family: "Arial Rounded MT Bold","Helvetica Rounded",Arial,sans-serif
+				font-weight:900;
+				font-size:30px;
+				padding-top:6px;
+				padding-bottom:6px;
+			}
+			.bdr{
+				border:1px solid #000000;
+				
+			}
+			.wid{
+				height:36%;
+			}
+			
+
+#custom-search-input {
+        margin:0;
+        margin-top: 10px;
+        padding: 0;
+    }
+ 
+    #custom-search-input .search-query {
+        padding-right: 3px;
+        padding-right: 4px \9;
+        padding-left: 3px;
+        padding-left: 4px \9;
+        /* IE7-8 doesn't have border-radius, so don't indent the padding */
+ 
+        margin-bottom: 0;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+    }
+ 
+    #custom-search-input button {
+        border: 0;
+        background: none;
+        /** belows styles are working good */
+        padding: 2px 5px;
+        margin-top: 2px;
+        position: relative;
+        left: -28px;
+        /* IE7-8 doesn't have border-radius, so don't indent the padding */
+        margin-bottom: 0;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        color:#D9230F;
+    }
+ 
+    .search-query:focus + button {
+        z-index: 3;   
+    }
+	.pad{
+		padding-top: 15px;
+	}
+			
+		</style>
 	</head>
-
 	<body>
-		<div id="map"></div>
+		<div class='col-md-12 header'>NYC Urban View</div>
+		<div class='col-md-12  wid'></div>
+		<div class='col-md-12'><div class='col-md-3'></div>
+		<div class='col-md-6'>
+			
+			<div class='col-md-2'></div>
+           <div id="custom-search-input" class='col-md-8'>
+                            <div class="input-group">
+                                <input type="text" class="  search-query form-control" placeholder="Search" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-danger" type="button">
+                                        <span class=" glyphicon glyphicon-search"></span>
+                                    </button>
+                                </span>
+                            </div>
+							<br/>
+							<div class=''>Go quickly to:</div>
+							<div class=''><a href='app.html?layer=crime'>Based on Crime</a></div>
+							
+							<div class=''><a href='app.html?layer=schools'>Based on Schools</a></div>
+							
+							<div class=''><a href='app.html?layer=air'>Based on air pollution</a></div>
+                        </div>
+			<div class='col-md-2 pad'><a href='app.html'>Map View</a></div>
+
 		
 		
-		
-	<script>
-
-    var map = L.map('map',{crs: L.CRS.EPSG3857,drawControl: true}).setView([40.7128, -74.0059], 9);
-var options = {
-  bounds: true,
-  position: 'topright',
-  expanded: true
-};
-    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    
-	L.tileLayer.wms("wms.php", {
-    	layers: 'schools',
-        format: 'image/png',
-        transparent: true,
-    }).addTo(map); 
-	L.tileLayer.wms("wms.php", {
-    	layers: 'crime',
-        format: 'image/png',
-        transparent: true,
-        attribution: "Weather data © 2012 IEM Nexrad"
-    }).addTo(map);
-	L.tileLayer.wms("wms.php", {
-    	layers: 'nypp',
-        format: 'image/png',
-        transparent: true,
-        attribution: "Weather data © 2012 IEM Nexrad"
-    }).addTo(map);
-	/*var geocoder = L.Mapzen.geocoder('mapzen-dWt4MWC', {
-        autocomplete: true,
-        params: {
-          sources: 'osm',
-          'boundary.country': 'USA',
-          layers: 'venue,address'
-        }
-      });*/
-	  L.control.geocoder('mapzen-dWt4MWC',options).addTo(map);
-      //geocoder.addTo(map);
-	  
-	  //draw
-	    var drawnItems = new L.FeatureGroup();
-        map.addLayer(drawnItems);
-
-        var drawControl = new L.Control.Draw({
-            edit: {
-                featureGroup: drawnItems
-            }
-        });
-        map.addControl(drawControl);
-
-        map.on('draw:created', function (e) {
-            var type = e.layerType,
-                layer = e.layer;
-            drawnItems.addLayer(layer);
-        });
-
-</script>
+		</div>
+		<div class='col-md-3'></div></div>
 	</body>
-	
 </html>
