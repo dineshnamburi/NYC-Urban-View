@@ -1,102 +1,139 @@
 <html>
-	<head>
-		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-		<script src="https://code.jquery.com/jquery-3.1.1.min.js"
-  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-  crossorigin="anonymous"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-		<style>
-			.header{
-				background-color:#000;
-				color:#FFFFFF;
-				font-family: "Arial Rounded MT Bold","Helvetica Rounded",Arial,sans-serif
-				font-weight:900;
-				font-size:30px;
-				padding-top:6px;
-				padding-bottom:6px;
-			}
-			.bdr{
-				border:1px solid #000000;
-				
-			}
-			.wid{
-				height:36%;
-			}
-			
+<head>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!--<link href="https://cdnjs.cloudflare.com/ajax/libs/unslider/2.0.3/css/unslider.css" rel="stylesheet">--.
+<!--<link href="https://cdnjs.cloudflare.com/ajax/libs/unslider/2.0.3/css/unslider-dots.css" rel="stylesheet">-->
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places&key=AIzaSyA14ZNduiL5cl0a6D5z1Tx2ZY2BGg1GTuk"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/unslider/2.0.3/js/unslider-min.js"></script>-->
+<style>
+.header{
+	background-color:#000;
+color:#FFFFFF;
+	font-family: "Arial Rounded MT Bold","Helvetica Rounded",Arial,sans-serif
+	font-weight:900;
+	font-size:30px;
+	padding-top:6px;
+	padding-bottom:6px;
+}
+.bdr{
+border:1px solid #000000;
+	
+}
+.wid{
+height:36%;
+}
+
 
 #custom-search-input {
-        margin:0;
-        margin-top: 10px;
-        padding: 0;
-    }
- 
-    #custom-search-input .search-query {
-        padding-right: 3px;
-        padding-right: 4px \9;
-        padding-left: 3px;
-        padding-left: 4px \9;
-        /* IE7-8 doesn't have border-radius, so don't indent the padding */
- 
-        margin-bottom: 0;
-        -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-        border-radius: 3px;
-    }
- 
-    #custom-search-input button {
-        border: 0;
-        background: none;
-        /** belows styles are working good */
-        padding: 2px 5px;
-        margin-top: 2px;
-        position: relative;
-        left: -28px;
-        /* IE7-8 doesn't have border-radius, so don't indent the padding */
-        margin-bottom: 0;
-        -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-        border-radius: 3px;
-        color:#D9230F;
-    }
- 
-    .search-query:focus + button {
-        z-index: 3;   
-    }
-	.pad{
-		padding-top: 15px;
-	}
-			
-		</style>
-	</head>
-	<body>
-		<div class='col-md-12 header'>NYC Urban View</div>
-		<div class='col-md-12  wid'></div>
-		<div class='col-md-12'><div class='col-md-3'></div>
-		<div class='col-md-6'>
-			
-			<div class='col-md-2'></div>
-           <div id="custom-search-input" class='col-md-8'>
-                            <div class="input-group">
-                                <input type="text" class="  search-query form-control" placeholder="Search" />
-                                <span class="input-group-btn">
-                                    <button class="btn btn-danger" type="button">
-                                        <span class=" glyphicon glyphicon-search"></span>
-                                    </button>
-                                </span>
-                            </div>
-							<br/>
-							<div class=''>Go quickly to:</div>
-							<div class=''><a href='app.html?layer=crime'>Based on Crime</a></div>
-							
-							<div class=''><a href='app.html?layer=schools'>Based on Schools</a></div>
-							
-							<div class=''><a href='app.html?layer=air'>Based on air pollution</a></div>
-                        </div>
-			<div class='col-md-2 pad'><a href='app.html'>Map View</a></div>
+margin:0;
+	margin-top: 10px;
+padding: 0;
+}
 
+#custom-search-input .search-query {
+	padding-right: 3px;
+	padding-right: 4px \9;
+	padding-left: 3px;
+	padding-left: 4px \9;
+	/* IE7-8 doesn't have border-radius, so don't indent the padding */
+
+	margin-bottom: 0;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+#custom-search-input button {
+border: 0;
+background: none;
+	/** belows styles are working good */
+padding: 2px 5px;
+	margin-top: 2px;
+position: relative;
+left: -28px;
+	/* IE7-8 doesn't have border-radius, so don't indent the padding */
+	margin-bottom: 0;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+color:#D9230F;
+}
+
+.search-query:focus + button {
+	z-index: 3;   
+}
+.pad{
+	padding-top: 15px;
+}
+
+</style>
+<script>
+	
+</script>
+</head>
+<body>
+<div class='col-md-12 header'>NYC Urban View</div>
+<div class='col-md-12  wid'></div>
+<div class='col-md-12'><div class='col-md-3'></div>
+<div class='col-md-6'>
+
+<div class='col-md-2'></div>
+<div id="custom-search-input" class='col-md-8'><form id='frm' onclick="return false;" action='app.html' method='get'>
+<div class="input-group">
+<input type="text" id="autocomplete" name='q' class="  search-query form-control" placeholder="Search" />
+<span class="input-group-btn">
+<button class="btn btn-danger" id='srs_but' type="submit">
+<span class=" glyphicon glyphicon-search"></span>
+</button>
+</span>
+</div></form>
+<br/>
+<div class=''>Go quickly to:</div>
+<div class=''><a href='app.html?layer=crime'>Based on Crime</a></div>
+
+<div class=''><a href='app.html?layer=schools'>Based on Schools</a></div>
+
+<div class=''><a href='app.html?layer=air'>Based on air pollution</a></div>
+</div>
+<div class='col-md-2 pad'><a href='app.html'>Map View</a></div>
+
+
+
+</div>
+<div class='col-md-3'></div></div>
+
+</body>
+<script>
+$(document).ready(function(){
+	function gcode() {
+
+		new google.maps.places.Autocomplete(
+		(document.getElementById('autocomplete')), {
+types: ['geocode']
+		});
+	}
+
+	gcode();
+		var geocoder = new google.maps.Geocoder();
+	$('#frm').click(function(){
+		var address = document.getElementById('autocomplete').value;
+		geocoder.geocode( { 'address': address}, function(results, status) {
+
+			if (status == google.maps.GeocoderStatus.OK) {
+				var latitude = results[0].geometry.location.lat();
+				var longitude = results[0].geometry.location.lng();
+
+				//alert('app.html?latlong='+latitude+','+longitude);
+				window.location.href='app.html?latlong='+latitude+','+longitude;
+
+			}}); 
 		
-		
-		</div>
-		<div class='col-md-3'></div></div>
-	</body>
+	});
+});
+</script>
+
 </html>

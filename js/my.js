@@ -6,11 +6,21 @@ function gup( name, url ) {
 	var results = regex.exec( url );
 	return results == null ? null : results[1];
 }
-console.log(gup('q'));
-var map = L.map('map',{crs: L.CRS.EPSG3857}).setView([40.7128, -74.0059], 11.5);
+console.log(gup('latlong'));
+if(gup('latlong')!=null){
+	var latlong = gup('latlong');
+	latlong = latlong.split(',');
+	var map = L.map('map',{crs: L.CRS.EPSG3857}).setView(latlong, 11.5);
+	L.marker(latlong).addTo(map);
+
+	
+}
+else{
+	var map = L.map('map',{crs: L.CRS.EPSG3857}).setView([40.7128, -74.0059], 11.5);
+}
 
 var options = {
-bounds: true,
+bounds: false,
 position: 'topright',
 expanded: true
 };
@@ -79,3 +89,11 @@ map.on('draw:created', function (e) {
 	console.log(shape_for_db);
 	console.info(layer);
 });
+
+if(gup('q')!=null){
+	var x = document.getElementsByClassName("leaflet-pelias-input");
+	x[0].value = gup('q');
+}
+
+
+
