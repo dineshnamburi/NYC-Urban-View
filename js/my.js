@@ -1,3 +1,4 @@
+$(document).ready(function(){
 function gup( name, url ) {
 	if (!url) url = location.href;
 	name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
@@ -87,7 +88,11 @@ map.on('draw:created', function (e) {
 	var shape = layer.toGeoJSON()
 	var shape_for_db = JSON.stringify(shape);
 	console.log(shape_for_db);
-	console.info(layer);
+	//console.info(layer);
+	
+	 $.ajax({type:"POST",data:shape_for_db,url: "dynamic.php", success: function(result){
+        alert(123);
+    }});
 });
 
 if(gup('q')!=null){
@@ -97,3 +102,4 @@ if(gup('q')!=null){
 
 
 
+});
