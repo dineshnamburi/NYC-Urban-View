@@ -91,7 +91,45 @@ map.on('draw:created', function (e) {
 	//console.info(layer);
 	
 	 $.ajax({type:"POST",data:shape_for_db,url: "dynamic.php", success: function(result){
-        alert(123);
+        var arr = JSON.parse(result);
+		var air = arr[0];
+		var crime = arr[1];
+		var sch = arr[2][0][0];
+		console.log(arr[0]);
+		console.log(arr[1]);
+		console.log(arr[2][0][0]);
+		var air_rate =crime_rate= 0;
+		for(var i=0;i<air.length;i++){
+			var tmp = air[i];
+			air_rate = air_rate+(parseFloat(air[i][1]) * parseFloat(air[i][2]));
+			//console.log(parseFloat(air[i][1]) * parseFloat(air[i][2]));
+		}
+		for(var i=0;i<crime.length;i++){
+			var tmp = crime[i];
+			crime_rate = crime_rate+(parseFloat(crime[i][1])*parseFloat(crime[i][2]));
+		}
+		
+		
+		if(crime_rate <= 1.2404){myRating1.setRating(5, false);crime_rate=5;}
+		else if(crime_rate > 1.2404 && crime_rate <= 1.4803){myRating2.setRating(4, false);crime_rate=4;}
+		else if(crime_rate > 1.4803 && crime_rate <= 1.6483){myRating2.setRating(3, false);crime_rate=3;}
+		else if(crime_rate > 1.6483 && crime_rate <= 1.4803){myRating2.setRating(2, false);crime_rate=2;}
+		else if(crime_rate > 2.4154 && crime_rate <= 12.3481){myRating2.setRating(1, false);crime_rate=1;}
+		
+		if(air_rate <= 30){myRating3.setRating(3, false);air_rate=3;}
+		else if(air_rate > 30 && air_rate <= 40){myRating3.setRating(2, false);air_rate=2;}
+		else if(air_rate >  40){myRating3.setRating(1, false);air_rate=1;}
+		
+		if(sch <= 5){myRating1.setRating(1, false);sch=1;}
+		else if(sch > 5 && sch <= 10){myRating1.setRating(2, false);sch=2;}
+		else if(sch > 10 && sch <= 15){myRating1.setRating(3, false);sch=3;}
+		else if(sch > 15 && sch <= 20){myRating1.setRating(4, false);sch=4;}
+		else if(sch > 20){myRating1.setRating(5, false);sch=5;}
+		var total = air_rate+sch+crime_rate;
+		total=total/3;
+		$('#ovr').html(total.toFixed(1));
+		console.log(air_rate);
+		console.log(crime_rate);
     }});
 });
 
@@ -102,7 +140,9 @@ if(gup('q')!=null){
 
 //ratings
 
-var el = document.querySelector('#el');
+var el1 = document.querySelector('#el1');
+var el2 = document.querySelector('#el2');
+var el3 = document.querySelector('#el3');
 
 // current rating, or initial rating
 var currentRating = 2;
@@ -114,7 +154,9 @@ var maxRating= 5;
 
 
 // rating instance
-var myRating = rating(el, currentRating, maxRating);
-//myRating.setRating(3, false);
+var myRating1 = rating(el1, currentRating, maxRating);
+var myRating2 = rating(el2, currentRating, maxRating);
+var myRating3 = rating(el3, currentRating, maxRating);
+myRating1.setRating(5, false);
 
 });
