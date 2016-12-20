@@ -12,7 +12,7 @@ $shape = $polygon->{'geometry'}->{'type'};
 if($shape == 'Polygon'){
 $coordinates = $polygon->{'geometry'}->{'coordinates'}[0];
 //var_dump ();
-$query = "select uhfcode from nycuhf42 where st_contains(geom,(SELECT ST_Transform(ST_GeomFromText('POLYGON((";
+//$query = "select uhfcode from nycuhf42 where st_contains(geom,(SELECT ST_Transform(ST_GeomFromText('POLYGON((";
 
 $query1 = "select uhfcode,quality_rate,(st_area(st_intersection(b.gom, geom))/st_area(b.gom)) as weight from nycuhf42,(SELECT ST_Transform(ST_GeomFromText('POLYGON((";
 
@@ -34,7 +34,14 @@ $query3 = $query3 .$coors. "))',4326),3857) as gom) as b where st_contains(b.gom
 
 }
 else if($shape == 'Point'){
-	
+	$coordinates = $polygon->{'geometry'}->{'coordinates'};
+//var_dump ();
+$query1 = "select uhfcode,quality_rate,1 as weight from nycuhf42,(SELECT ST_Transform(ST_PointFromText('POINT(".$coordinates[0]." ".$coordinates[1].")',4326),3857) as gom) as b where st_intersects(geom,b.gom);";
+
+$query2 = "select precinct,crime_rate,1 as weight from nypp,(SELECT ST_Transform(ST_PointFromText('POINT(".$coordinates[0]." ".$coordinates[1].")',4326),3857) as gom) as b where st_intersects(geom,b.gom);";
+
+$query3 = "select count(*) as schools from (SELECT count(gid) as schools from schools,(SELECT ST_Buffer(ST_Transform(ST_PointFromText('POINT(".$coordinates[0]." ".$coordinates[1].")',4326),3857),1609) as gom) as b where st_contains(b.gom,geom) or st_touches(b.gom,geom) group by gid) as rs;";
+
 }
 
 

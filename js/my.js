@@ -100,6 +100,21 @@ if(gup('q')!=null){
 	x[0].value = gup('q');
 }
 
+//ratings
 
+var el = document.querySelector('#el');
+
+// current rating, or initial rating
+var currentRating = 2;
+
+// max rating, i.e. number of stars you want
+var maxRating= 5;
+
+// callback to run after setting the rating
+
+
+// rating instance
+var myRating = rating(el, currentRating, maxRating);
+//myRating.setRating(3, false);
 
 });
