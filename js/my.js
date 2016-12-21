@@ -52,6 +52,14 @@ format: 'image/png',
 transparent: true
 			}).addTo(map);
 		}
+		if(gup('layer') == 'crash'){
+			//crime layer 
+			L.tileLayer.wms("wms.php", {
+layers: 'crash',
+format: 'image/png',
+transparent: true
+			}).addTo(map);
+		}
 		if(gup('layer') == 'air'){
 			//pollution layer
 			L.tileLayer.wms("wms.php", {
@@ -66,7 +74,10 @@ transparent: true
 	geocoder.addTo(map);
 	geocoder.on('select', function (e) {
 		console.log('You’ve selected', e.latlng);
-		map.removeLayer(mk1);
+		if(mk1){
+			map.removeLayer(mk1);
+		}
+		
 		ajx(e.latlng.lng,e.latlng.lat);
 	});
 	function ajx(lng,lat){
@@ -75,11 +86,12 @@ transparent: true
 				var arr = JSON.parse(result);
 				var air = arr[0];
 				var crime = arr[1];
+				var crash = arr[3];
 				var sch = arr[2][0][0];
 				console.log(arr[0]);
 				console.log(arr[1]);
 				console.log(arr[2][0][0]);
-				var air_rate =crime_rate= 0;
+				var air_rate =crime_rate=crash_rate= 0;
 				for(var i=0;i<air.length;i++){
 					var tmp = air[i];
 					air_rate = air_rate+(parseFloat(air[i][1]) * parseFloat(air[i][2]));
@@ -89,15 +101,27 @@ transparent: true
 					var tmp = crime[i];
 					crime_rate = crime_rate+(parseFloat(crime[i][1])*parseFloat(crime[i][2]));
 				}
+				for(var i=0;i<crash.length;i++){
+					var tmp = crash[i];
+					crash_rate = crash_rate+(parseFloat(crash[i][1])*parseFloat(crash[i][2]));
+				}
 				
 				$('#cq').html(crime_rate.toFixed(1));
 				$('#aq').html(air_rate.toFixed(1));
 				$('#sq').html(sch);
-				if(crime_rate <= 1.2404){crime_rate=5;myRating1.setRating(5, false);}
+				$('#rq').html(crash_rate.toFixed(1));
+				if(crime_rate <= 1.2404){crime_rate=5;myRating2.setRating(5, false);}
 				else if(crime_rate > 1.2404 && crime_rate <= 1.4803){crime_rate=4;myRating2.setRating(4, false);}
 				else if(crime_rate > 1.4803 && crime_rate <= 1.6483){crime_rate=3;myRating2.setRating(3, false);}
 				else if(crime_rate > 1.6483 && crime_rate <= 1.4803){crime_rate=2;myRating2.setRating(2, false);}
 				else if(crime_rate > 2.4154 && crime_rate <= 12.3481){crime_rate=1;myRating2.setRating(1, false);}
+				
+				if(crash_rate <= 50){crash_rate=5;myRating4.setRating(5, false);}
+				else if(crash_rate > 50 && crash_rate <= 100){crash_rate=4;myRating4.setRating(4, false);}
+				else if(crash_rate > 100 && crash_rate <= 150){crash_rate=3;myRating4.setRating(3, false);}
+				else if(crash_rate > 150 && crash_rate <= 200){crash_rate=2;myRating4.setRating(2, false);}
+				else if(crash_rate > 200){crash_rate=1;myRating4.setRating(1, false);}
+				
 				
 				if(air_rate <= 30){air_rate=3;myRating3.setRating(3, false);}
 				else if(air_rate > 30 && air_rate <= 40){air_rate=2;myRating3.setRating(2, false);}
@@ -108,11 +132,12 @@ transparent: true
 				else if(sch > 10 && sch <= 15){sch=3;myRating1.setRating(3, false);}
 				else if(sch > 15 && sch <= 20){sch=4;myRating1.setRating(4, false);}
 				else if(sch > 20){sch=5;myRating1.setRating(5, false);}
-				var total = air_rate+sch+crime_rate;
-				total=total/3;
+				var total = air_rate+sch+crime_rate+crash_rate;
+				total=total/4;
 				$('#ovr').html(total.toFixed(1));
 				console.log(air_rate);
 				console.log(crime_rate);
+				console.log(crash_rate);console.log(sch);console.log(total);
 			}});
 		
 	}
@@ -145,7 +170,10 @@ var drawControlEditOnly = new L.Control.Draw({
     draw: false
 });
 	map.on('draw:created', function (e) {
-		map.removeLayer(mk1);
+		if(mk1){
+				map.removeLayer(mk1);
+		}
+		
 		var type = e.layerType,
 		layer = e.layer;
 		drawnItems.addLayer(layer);
@@ -158,11 +186,12 @@ var drawControlEditOnly = new L.Control.Draw({
 				var arr = JSON.parse(result);
 				var air = arr[0];
 				var crime = arr[1];
+				var crash = arr[3];
 				var sch = arr[2][0][0];
 				console.log(arr[0]);
 				console.log(arr[1]);
 				console.log(arr[2][0][0]);
-				var air_rate =crime_rate= 0;
+				var air_rate =crime_rate=crash_rate= 0;
 				for(var i=0;i<air.length;i++){
 					var tmp = air[i];
 					air_rate = air_rate+(parseFloat(air[i][1]) * parseFloat(air[i][2]));
@@ -172,15 +201,27 @@ var drawControlEditOnly = new L.Control.Draw({
 					var tmp = crime[i];
 					crime_rate = crime_rate+(parseFloat(crime[i][1])*parseFloat(crime[i][2]));
 				}
+				for(var i=0;i<crash.length;i++){
+					var tmp = crash[i];
+					crash_rate = crash_rate+(parseFloat(crash[i][1])*parseFloat(crash[i][2]));
+				}
 				
 				$('#cq').html(crime_rate.toFixed(1));
 				$('#aq').html(air_rate.toFixed(1));
 				$('#sq').html(sch);
+				$('#rq').html(crash_rate.toFixed(1));
 				if(crime_rate <= 1.2404){crime_rate=5;myRating1.setRating(5, false);}
 				else if(crime_rate > 1.2404 && crime_rate <= 1.4803){crime_rate=4;myRating2.setRating(4, false);}
 				else if(crime_rate > 1.4803 && crime_rate <= 1.6483){crime_rate=3;myRating2.setRating(3, false);}
 				else if(crime_rate > 1.6483 && crime_rate <= 1.4803){crime_rate=2;myRating2.setRating(2, false);}
 				else if(crime_rate > 2.4154 && crime_rate <= 12.3481){crime_rate=1;myRating2.setRating(1, false);}
+				
+				if(crash_rate <= 50){crash_rate=5;myRating4.setRating(5, false);}
+				else if(crash_rate > 50 && crash_rate <= 100){crash_rate=4;myRating4.setRating(4, false);}
+				else if(crash_rate > 100 && crash_rate <= 150){crash_rate=3;myRating4.setRating(3, false);}
+				else if(crash_rate > 150 && crash_rate <= 200){crash_rate=2;myRating4.setRating(2, false);}
+				else if(crash_rate > 200){crash_rate=1;myRating4.setRating(1, false);}
+				
 				
 				if(air_rate <= 30){air_rate=3;myRating3.setRating(3, false);}
 				else if(air_rate > 30 && air_rate <= 40){air_rate=2;myRating3.setRating(2, false);}
@@ -191,11 +232,12 @@ var drawControlEditOnly = new L.Control.Draw({
 				else if(sch > 10 && sch <= 15){sch=3;myRating1.setRating(3, false);}
 				else if(sch > 15 && sch <= 20){sch=4;myRating1.setRating(4, false);}
 				else if(sch > 20){sch=5;myRating1.setRating(5, false);}
-				var total = air_rate+sch+crime_rate;
-				total=total/3;
+				var total = air_rate+sch+crime_rate+crash_rate;
+				total=total/4;
 				$('#ovr').html(total.toFixed(1));
 				console.log(air_rate);
 				console.log(crime_rate);
+				console.log(crash_rate);
 			}});
 			map.removeControl(drawControl)
 			drawControlEditOnly.addTo(map)
@@ -217,6 +259,7 @@ var drawControlEditOnly = new L.Control.Draw({
 	var el1 = document.querySelector('#el1');
 	var el2 = document.querySelector('#el2');
 	var el3 = document.querySelector('#el3');
+	var el4 = document.querySelector('#el4');
 
 	// current rating, or initial rating
 	var currentRating = 0;
@@ -231,6 +274,7 @@ var drawControlEditOnly = new L.Control.Draw({
 	var myRating1 = rating(el1, currentRating, maxRating);
 	var myRating2 = rating(el2, currentRating, maxRating);
 	var myRating3 = rating(el3, currentRating, maxRating);
+	var myRating4 = rating(el4, currentRating, maxRating);
 
 
 });

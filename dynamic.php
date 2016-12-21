@@ -20,6 +20,8 @@ $query2 = "select precinct,crime_rate,(st_area(st_intersection(b.gom, geom))/st_
 
 $query3 = "select count(*) as schools from (SELECT count(gid) as schools from schools,(SELECT ST_Transform(ST_GeomFromText('POLYGON((";
 
+$query4 = "select precinct,no_of_crashes,(st_area(st_intersection(b.gom, geom))/st_area(b.gom)) as weight from nypp,(SELECT ST_Transform(ST_GeomFromText('POLYGON((";
+
 $coors = "";
 foreach($coordinates as $item) {
 	//echo $item;
@@ -30,7 +32,7 @@ $coors = substr($coors, 0, -1);
 $query1 = $query1 .$coors. "))',4326),3857) as gom) as b where st_intersects(geom,b.gom);";
 $query2 = $query2 .$coors. "))',4326),3857) as gom) as b where st_intersects(geom,b.gom);";
 $query3 = $query3 .$coors. "))',4326),3857) as gom) as b where st_contains(b.gom,geom) or st_touches(b.gom,geom) group by gid) as rs;";
-//print $query;
+$query4 = $query4 .$coors. "))',4326),3857) as gom) as b where st_intersects(geom,b.gom);";
 
 }
 else if($shape == 'Point'){
@@ -42,6 +44,7 @@ $query2 = "select precinct,crime_rate,1 as weight from nypp,(SELECT ST_Transform
 
 $query3 = "select count(*) as schools from (SELECT count(gid) as schools from schools,(SELECT ST_Buffer(ST_Transform(ST_PointFromText('POINT(".$coordinates[0]." ".$coordinates[1].")',4326),3857),1609) as gom) as b where st_contains(b.gom,geom) or st_touches(b.gom,geom) group by gid) as rs;";
 
+$query4 = "select precinct,no_of_crashes,1 as weight from nypp,(SELECT ST_Transform(ST_PointFromText('POINT(".$coordinates[0]." ".$coordinates[1].")',4326),3857) as gom) as b where st_intersects(geom,b.gom);";
 }
 
 
@@ -72,6 +75,6 @@ function exc($query) {
 	pg_close($db);
 }
 
-$final_output = "[".exc($query1).",".exc($query2).",".exc($query3)."]";
+$final_output = "[".exc($query1).",".exc($query2).",".exc($query3).",".exc($query4)."]";
 print $final_output;
 ?>
